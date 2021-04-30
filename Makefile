@@ -19,12 +19,6 @@ SRC	=	number.c \
 		number_stack.c \
 		sub.c \
 		mul.c \
-<<<<<<< HEAD
-		add.c
-
-OBJ	=	$(foreach source, $(SRC), obj/$(source:.c=.o))
-
-=======
 		add.c \
 		div.c
 MAIN	=	main.c
@@ -45,33 +39,19 @@ TESTS	=	tests/test_number.c \
 		tests/test_add.c \
 		tests/test_div.c
 OBJ	=	$(SRC:.c=.o) main.o
->>>>>>> 4c03d6327a7d9c10f5b3809d2a5b06d2bc5109aa
 NAME	=	calc
-
 LIB	=	lib/my/libmy.a
-<<<<<<< HEAD
-
-CFLAGS	=	-g -Wall -Wextra -ansi -pedantic
-
-LDFLAGS	=	-Llib/my -lmy
-=======
 CFLAGS	=	-Wall -Wextra -ansi -pedantic
 CRFLAGS	=	--coverage -lcriterion
 LDFLAGS =	-Llib/my -lmy
->>>>>>> 4c03d6327a7d9c10f5b3809d2a5b06d2bc5109aa
 
-all: $(NAME)
+all: $(LIB) $(NAME)
 
-$(NAME): $(LIB) $(OBJ)
-	gcc -o $@ $(OBJ) $(LDFLAGS)
+$(NAME): $(OBJ)
+	gcc -o $(NAME) $(OBJ) $(LDFLAGS)
 
-<<<<<<< HEAD
-obj/%.o: src/%.c
-	gcc -c $< -o $@ $(CFLAGS)
-=======
 $(OBJ): $(SRC)
 	gcc -c $(MAIN) $(SRC) $(CFLAGS)
->>>>>>> 4c03d6327a7d9c10f5b3809d2a5b06d2bc5109aa
 
 $(LIB):
 	make -C lib/my
@@ -82,12 +62,13 @@ tests_run: $(LIB)
 
 clean:
 	rm -f *.o
-	make -C lib/my clean
 
-fclean: clean
+libclean:
+	make -C lib/my fclean
+
+fclean: clean libclean
 	rm -f $(NAME)
 	rm -f unit_tests
 	rm -f *.gc*
-	make -C lib/my fclean
 
-re: fclean all
+re: fclean libclean all

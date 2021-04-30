@@ -1,0 +1,4 @@
+*.o
+calc
+a.out
+libmy.a
